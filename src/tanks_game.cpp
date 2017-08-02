@@ -22,9 +22,7 @@ TanksGame::TanksGame(void) {
 	playerTank = new Tank(PLAYER1_INIT_X, PLAYER1_INIT_Y);
 
 	gameWindow = NULL;
-	gameSurface = NULL;
-
-	gameBgColor = 0xFFFFFFFF;
+	gameRenderer = NULL;
 
 }
 
@@ -49,16 +47,18 @@ void TanksGame::mainLoop(void) {
 		}
 
 		// Draw game background.
-		SDL_FillRect(gameSurface, NULL, gameBgColor);
+		SDL_SetRenderDrawColor(gameRenderer, GAMEBG_R, GAMEBG_G, GAMEBG_B, 0xFF);
+		SDL_RenderClear(gameRenderer);
 
 		// Handle user input for player tank
 		//
 		// NOTE: normally SDL_PushEvents() would have to be called here to update
 		// the keyboard array, but it is implicitly called by SDL_PollEvents().
 		playerTank->handleKeyboardState(SDL_GetKeyboardState(NULL));
-		playerTank->draw(gameSurface);
+		playerTank->draw(gameRenderer);
 
-		SDL_UpdateWindowSurface(gameWindow);
+		// Update screen
+		SDL_RenderPresent(gameRenderer);
 	}
 
 	printf("Event loop ended. Closing SDL...\n");
@@ -83,13 +83,16 @@ bool TanksGame::init_sdl() {
 					SDL_GetError());
 			return false;
 		} else {
-			gameSurface = SDL_GetWindowSurface(gameWindow);
+			// create renderer for window
+			gameRenderer = SDL_CreateRenderer(gameWindow, -1, SDL_RENDERER_ACCELERATED);
+
+			if (gameRenderer == NULL) {
+				printf("Error initializing game renderer! SDL_Error: %s\n", SDL_GetError());
+				return false;
+			}
 		}
 
 	}
-
-	// Create game BG color using game surface color format
-	gameBgColor = SDL_MapRGB(gameSurface->format, GAMEBG_R, GAMEBG_G, GAMEBG_B);
 
 	return true;
 
@@ -97,8 +100,8 @@ bool TanksGame::init_sdl() {
 
 void TanksGame::close_sdl() {
 
-	SDL_FreeSurface(gameSurface);
-	gameSurface = NULL;
+	SDL_DestroyRenderer(gameRenderer);
+	gameRenderer = NULL;
 
 	SDL_DestroyWindow(gameWindow);
 	gameWindow = NULL;

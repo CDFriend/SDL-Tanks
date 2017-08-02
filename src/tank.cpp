@@ -36,11 +36,9 @@ void Tank::handleKeyboardState(const Uint8 *keyboardState) {
 		xPos += 3;
 	}
 
-	printf("Tank position: [ x:%d, y:%d ]\n", xPos, yPos);
-
 }
 
-void Tank::draw(SDL_Surface *drawingSurface) {
+void Tank::draw(SDL_Renderer *gameRenderer) {
 
 	SDL_Rect tankRect;
 	tankRect.x = xPos;
@@ -48,6 +46,7 @@ void Tank::draw(SDL_Surface *drawingSurface) {
 	tankRect.w = 20;
 	tankRect.h = 20;
 
-	SDL_FillRect(drawingSurface, &tankRect, SDL_MapRGB(drawingSurface->format, 255, 0, 0));
+	SDL_SetRenderDrawColor(gameRenderer, 0xFF, 0, 0, 0xFF);
+	SDL_RenderDrawRect(gameRenderer, &tankRect);
 
 }

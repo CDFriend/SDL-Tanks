@@ -23,12 +23,9 @@ private:
 
 	// SDL surfaces for running game window
 	SDL_Window* gameWindow;
-	SDL_Surface* gameSurface;
+	SDL_Renderer* gameRenderer;
 
 	// Human-controlled player object.
 	Tank *playerTank;
-
-	// Game background color provided by SDL_MapRGB().
-	Uint32 gameBgColor;
 
 };

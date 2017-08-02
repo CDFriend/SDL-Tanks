@@ -10,7 +10,7 @@ class Tank {
 public:
 	Tank(int initX, int initY);
 	void handleKeyboardState(const Uint8 *keyboardState);
-	void draw(SDL_Surface *drawingSurface);
+	void draw(SDL_Renderer *drawingSurface);
 
 private:
 	int xPos;
