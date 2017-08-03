@@ -19,16 +19,23 @@ const int GAMEBG_B = 255;
 
 TanksGame::TanksGame(void) {
 
-	playerTank = new Tank(PLAYER1_INIT_X, PLAYER1_INIT_Y);
+	// init gameWindow and gameRenderer
+	printf("Init sdl_window...\n");
+	init_sdl();
 
-	gameWindow = NULL;
-	gameRenderer = NULL;
+	playerTank = new Tank(gameRenderer, PLAYER1_INIT_X, PLAYER1_INIT_Y);
+
+}
+
+TanksGame::~TanksGame(void) {
+
+	// free all SDL resources and quit SDL
+	printf("Closing sdl_window...\n");
+	close_sdl();
 
 }
 
 void TanksGame::mainLoop(void) {
-
-	init_sdl();
 
 	bool quitFlag = false;
 
@@ -60,10 +67,6 @@ void TanksGame::mainLoop(void) {
 		// Update screen
 		SDL_RenderPresent(gameRenderer);
 	}
-
-	printf("Event loop ended. Closing SDL...\n");
-
-	close_sdl();
 
 }
 

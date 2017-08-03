@@ -5,6 +5,8 @@
  *      Author: Charlie Friend <charles.d.friend@gmail.com>
  */
 
+#include <SDL2/SDL.h>
+
 #include "tank.h"
 
 class TanksGame {
@@ -13,6 +15,7 @@ public:
 	// Opens an SDL window and blocks program execution until the window is closed.
 	void mainLoop();
 	TanksGame();
+	~TanksGame();
 
 private:
 	// Creates an SDL window and screen surface.

@@ -6,7 +6,6 @@
  */
 
 #include <iostream>
-#include <SDL2/SDL.h>
 
 #include "tanks_game.h"
 
@@ -14,10 +13,12 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	TanksGame game;
-	game = TanksGame();
+	TanksGame *game;
+	game = new TanksGame();
 
-	game.mainLoop();
+	game->mainLoop();
+
+	delete game;
 
 	return 0;
 
