@@ -17,6 +17,10 @@ const int GAMEBG_R = 0;
 const int GAMEBG_G = 0;
 const int GAMEBG_B = 255;
 
+// Minimum period between frame updates (ms).
+// (1 / 60ips) * 1000
+const int MIN_UPDATE_PERIOD = (int) (1000 / 60.0);
+
 TanksGame::TanksGame(void) {
 
 	// init gameWindow and gameRenderer
@@ -38,8 +42,17 @@ TanksGame::~TanksGame(void) {
 void TanksGame::mainLoop(void) {
 
 	bool quitFlag = false;
+	Uint32 lastFrameTime = SDL_GetTicks();
 
 	while (!quitFlag) {
+
+		// drop frames if updated faster than desired frame rate
+		Uint32 timeDelta = SDL_GetTicks() - lastFrameTime;
+		if (timeDelta < MIN_UPDATE_PERIOD) {
+			continue;
+		}
+
+		lastFrameTime = SDL_GetTicks();
 
 		// Poll events - e is local and should be disposed of at the end of
 		// the loop.
@@ -67,6 +80,8 @@ void TanksGame::mainLoop(void) {
 		// Update screen
 		SDL_RenderPresent(gameRenderer);
 	}
+
+
 
 }
 
