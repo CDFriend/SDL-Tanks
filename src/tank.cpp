@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -41,16 +42,18 @@ Tank::~Tank(void) {
 void Tank::handleKeyboardState(const Uint8 *keyboardState) {
 
 	if (keyboardState[SDL_SCANCODE_UP]) {
-		yPos -= 3;
+		xPos += 3 * cos( (double) (90 - bearing) * M_PI / 180);
+		yPos -= 3 * sin( (double) (90 - bearing) * M_PI / 180);
 	}
 	if (keyboardState[SDL_SCANCODE_DOWN]) {
-		yPos += 3;
+		xPos -= 3 * cos( (double) (90 - bearing) * M_PI / 180);
+		yPos += 3 * sin( (double) (90 - bearing) * M_PI / 180);
 	}
 	if (keyboardState[SDL_SCANCODE_LEFT]) {
-		xPos -= 3;
+		bearing = (bearing - 3) % 360;
 	}
 	if (keyboardState[SDL_SCANCODE_RIGHT]) {
-		xPos += 3;
+		bearing = (bearing + 3) % 360;
 	}
 
 }
@@ -64,6 +67,6 @@ void Tank::draw(SDL_Renderer *gameRenderer) {
 	tankRect.h = 80;
 
 	SDL_SetRenderDrawColor(gameRenderer, 0xFF, 0, 0, 0xFF);
-	SDL_RenderCopy(gameRenderer, tankTexture, NULL, &tankRect);
+	SDL_RenderCopyEx(gameRenderer, tankTexture, NULL, &tankRect, bearing, NULL, SDL_FLIP_NONE);
 
 }
