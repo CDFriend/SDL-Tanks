@@ -12,6 +12,9 @@
 
 #include "tank.h"
 
+const int TANK_WIDTH = 80;
+const int TANK_HEIGHT = 80;
+
 Tank::Tank(SDL_Renderer* gameRenderer, int initX, int initY) {
 
 	// initialize bearing to zero (tank always begins facing due north)
@@ -40,14 +43,13 @@ Tank::~Tank(void) {
 }
 
 void Tank::handleKeyboardState(const Uint8 *keyboardState) {
-
 	if (keyboardState[SDL_SCANCODE_UP]) {
-		xPos += 3 * cos( (double) (90 - bearing) * M_PI / 180);
-		yPos -= 3 * sin( (double) (90 - bearing) * M_PI / 180);
+		xPos += round( 3 * cos( (double) (90 - bearing) * M_PI / 180) );
+		yPos -= round( 3 * sin( (double) (90 - bearing) * M_PI / 180) );
 	}
 	if (keyboardState[SDL_SCANCODE_DOWN]) {
-		xPos -= 3 * cos( (double) (90 - bearing) * M_PI / 180);
-		yPos += 3 * sin( (double) (90 - bearing) * M_PI / 180);
+		xPos -= round( 3 * cos( (double) (90 - bearing) * M_PI / 180) );
+		yPos += round( 3 * sin( (double) (90 - bearing) * M_PI / 180) );
 	}
 	if (keyboardState[SDL_SCANCODE_LEFT]) {
 		bearing = (bearing - 3) % 360;
@@ -61,10 +63,10 @@ void Tank::handleKeyboardState(const Uint8 *keyboardState) {
 void Tank::draw(SDL_Renderer *gameRenderer) {
 
 	SDL_Rect tankRect;
-	tankRect.x = xPos;
-	tankRect.y = yPos;
-	tankRect.w = 80;
-	tankRect.h = 80;
+	tankRect.x = xPos + TANK_WIDTH / 2;
+	tankRect.y = yPos + TANK_HEIGHT / 2;
+	tankRect.w = TANK_WIDTH;
+	tankRect.h = TANK_HEIGHT;
 
 	SDL_SetRenderDrawColor(gameRenderer, 0xFF, 0, 0, 0xFF);
 	SDL_RenderCopyEx(gameRenderer, tankTexture, NULL, &tankRect, bearing, NULL, SDL_FLIP_NONE);
