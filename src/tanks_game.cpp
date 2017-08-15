@@ -33,6 +33,8 @@ TanksGame::TanksGame(void) {
 
 TanksGame::~TanksGame(void) {
 
+	delete playerTank;
+
 	// free all SDL resources and quit SDL
 	printf("Closing sdl_window...\n");
 	close_sdl();
