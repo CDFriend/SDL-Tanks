@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -g
 EXEC = main
 
-OBJS = bin/main.o bin/tanks_game.o bin/tank.o
+OBJS = bin/main.o bin/tanks_game.o bin/tank.o bin/bullet.o
 LIBS = -lSDL2 -lSDL2_image
 
 all: $(OBJS)
