@@ -13,13 +13,13 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	TanksGame *game;
-	game = new TanksGame();
+    TanksGame *game;
+    game = new TanksGame();
 
-	game->mainLoop();
+    game->mainLoop();
 
-	delete game;
+    delete game;
 
-	return 0;
+    return 0;
 
 }

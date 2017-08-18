@@ -16,18 +16,18 @@
 class Tank {
 
 public:
-	Tank(SDL_Renderer *gameRenderer, int initX, int initY);
-	~Tank();
-	void handleKeyboardState(const Uint8 *keyboardState, std::vector<Bullet> *bullets);
-	void draw(SDL_Renderer *drawingSurface);
+    Tank(SDL_Renderer *gameRenderer, int initX, int initY);
+    ~Tank();
+    void handleKeyboardState(const Uint8 *keyboardState, std::vector<Bullet> *bullets);
+    void draw(SDL_Renderer *drawingSurface);
 
 private:
-	int xPos;
-	int yPos;
-	int bearing;
+    int xPos;
+    int yPos;
+    int bearing;
 
-	SDL_Texture* tankTexture;
-	SDL_Renderer* gameRenderer;
+    SDL_Texture* tankTexture;
+    SDL_Renderer* gameRenderer;
 
 };
 

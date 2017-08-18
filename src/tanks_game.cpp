@@ -25,134 +25,134 @@ const int MIN_UPDATE_PERIOD = (int) (1000 / 60.0);
 
 TanksGame::TanksGame(void) {
 
-	// init gameWindow and gameRenderer
-	printf("Init sdl_window...\n");
-	init_sdl();
+    // init gameWindow and gameRenderer
+    printf("Init sdl_window...\n");
+    init_sdl();
 
-	playerTank = new Tank(gameRenderer, PLAYER1_INIT_X, PLAYER1_INIT_Y);
+    playerTank = new Tank(gameRenderer, PLAYER1_INIT_X, PLAYER1_INIT_Y);
 
 }
 
 TanksGame::~TanksGame(void) {
 
-	delete playerTank;
+    delete playerTank;
 
-	// free all SDL resources and quit SDL
-	printf("Closing sdl_window...\n");
-	close_sdl();
+    // free all SDL resources and quit SDL
+    printf("Closing sdl_window...\n");
+    close_sdl();
 
 }
 
 void TanksGame::mainLoop(void) {
 
-	bool quitFlag = false;
-	Uint32 lastFrameTime = SDL_GetTicks();
+    bool quitFlag = false;
+    Uint32 lastFrameTime = SDL_GetTicks();
 
     std::vector<Bullet> bullets;
 
-	while (!quitFlag) {
+    while (!quitFlag) {
 
-		// drop frames if updated faster than desired frame rate
-		Uint32 timeDelta = SDL_GetTicks() - lastFrameTime;
-		if (timeDelta < MIN_UPDATE_PERIOD) {
-			continue;
-		}
+        // drop frames if updated faster than desired frame rate
+        Uint32 timeDelta = SDL_GetTicks() - lastFrameTime;
+        if (timeDelta < MIN_UPDATE_PERIOD) {
+            continue;
+        }
 
-		lastFrameTime = SDL_GetTicks();
+        lastFrameTime = SDL_GetTicks();
 
-		// Poll events - e is local and should be disposed of at the end of
-		// the loop.
-		SDL_Event e;
-		if (SDL_PollEvent(&e) != 0) {
+        // Poll events - e is local and should be disposed of at the end of
+        // the loop.
+        SDL_Event e;
+        if (SDL_PollEvent(&e) != 0) {
 
-			// Check for quit event
-			if (e.type == SDL_QUIT) {
-				quitFlag = true;
-			}
+            // Check for quit event
+            if (e.type == SDL_QUIT) {
+                quitFlag = true;
+            }
 
-		}
+        }
 
-		// Draw game background.
-		SDL_SetRenderDrawColor(gameRenderer, GAMEBG_R, GAMEBG_G, GAMEBG_B, 0xFF);
-		SDL_RenderClear(gameRenderer);
+        // Draw game background.
+        SDL_SetRenderDrawColor(gameRenderer, GAMEBG_R, GAMEBG_G, GAMEBG_B, 0xFF);
+        SDL_RenderClear(gameRenderer);
 
-		// Update and draw bullets
-		bool removeFlags[bullets.size()];
-		for (std::vector<Bullet>::iterator b = bullets.begin(); b < bullets.end(); ++b) {
+        // Update and draw bullets
+        bool removeFlags[bullets.size()];
+        for (std::vector<Bullet>::iterator b = bullets.begin(); b < bullets.end(); ++b) {
 
-			if (b->isOutsidePerimeter(640, 480)) {
-				removeFlags[b - bullets.begin()] = true;
-			}
-			else {
-				b->update();
-				b->draw(gameRenderer);
+            if (b->isOutsidePerimeter(640, 480)) {
+                removeFlags[b - bullets.begin()] = true;
+            }
+            else {
+                b->update();
+                b->draw(gameRenderer);
                 removeFlags[b - bullets.begin()] = false;
-			}
+            }
 
-		}
+        }
 
-		// Remove bullets that have exited the game field
+        // Remove bullets that have exited the game field
         for (int i = 0; i < bullets.size(); i++) {
             if (removeFlags[i]) {
-				// NOTE: vector.erase() implicitly calls object destructor
+                // NOTE: vector.erase() implicitly calls object destructor
                 bullets.erase(bullets.begin() + i);
-			}
+            }
 
-		}
+        }
 
-		// Handle user input for player tank
-		//
-		// NOTE: normally SDL_PushEvents() would have to be called here to update
-		// the keyboard array, but it is implicitly called by SDL_PollEvents().
-		playerTank->handleKeyboardState(SDL_GetKeyboardState(NULL), &bullets);
-		playerTank->draw(gameRenderer);
+        // Handle user input for player tank
+        //
+        // NOTE: normally SDL_PushEvents() would have to be called here to update
+        // the keyboard array, but it is implicitly called by SDL_PollEvents().
+        playerTank->handleKeyboardState(SDL_GetKeyboardState(NULL), &bullets);
+        playerTank->draw(gameRenderer);
 
-		// Update screen
-		SDL_RenderPresent(gameRenderer);
-	}
+        // Update screen
+        SDL_RenderPresent(gameRenderer);
+    }
 
 }
 
 bool TanksGame::init_sdl() {
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		printf("Error initialing SDL! SDL_Error: %s\n", SDL_GetError());
-		return false;
-	} else {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("Error initialing SDL! SDL_Error: %s\n", SDL_GetError());
+        return false;
+    } else {
 
-		// initialize game window
-		gameWindow = SDL_CreateWindow("Tanks", SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
+        // initialize game window
+        gameWindow = SDL_CreateWindow("Tanks", SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
 
-		if (gameWindow == NULL) {
-			printf("Error initializing game window! SDL_Error: %s\n",
-					SDL_GetError());
-			return false;
-		} else {
-			// create renderer for window
+        if (gameWindow == NULL) {
+            printf("Error initializing game window! SDL_Error: %s\n",
+                    SDL_GetError());
+            return false;
+        } else {
+            // create renderer for window
             gameRenderer = SDL_CreateRenderer(gameWindow, -1, SDL_RENDERER_ACCELERATED);
 
-			if (gameRenderer == NULL) {
-				printf("Error initializing game renderer! SDL_Error: %s\n",
-						SDL_GetError());
-				return false;
-			}
-		}
+            if (gameRenderer == NULL) {
+                printf("Error initializing game renderer! SDL_Error: %s\n",
+                        SDL_GetError());
+                return false;
+            }
+        }
 
-	}
+    }
 
-	return true;
+    return true;
 
 }
 
 void TanksGame::close_sdl() {
 
-	SDL_DestroyRenderer(gameRenderer);
-	gameRenderer = NULL;
+    SDL_DestroyRenderer(gameRenderer);
+    gameRenderer = NULL;
 
-	SDL_DestroyWindow(gameWindow);
-	gameWindow = NULL;
+    SDL_DestroyWindow(gameWindow);
+    gameWindow = NULL;
 
-	SDL_Quit();
+    SDL_Quit();
 
 }
