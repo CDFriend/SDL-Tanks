@@ -80,7 +80,6 @@ void Tank::draw(SDL_Renderer *gameRenderer) {
 	tankRect.w = TANK_WIDTH;
 	tankRect.h = TANK_HEIGHT;
 
-	SDL_SetRenderDrawColor(gameRenderer, 0xFF, 0, 0, 0xFF);
 	SDL_RenderCopyEx(gameRenderer, tankTexture, NULL, &tankRect, bearing, NULL, SDL_FLIP_NONE);
 
 }

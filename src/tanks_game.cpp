@@ -48,7 +48,7 @@ void TanksGame::mainLoop(void) {
 	bool quitFlag = false;
 	Uint32 lastFrameTime = SDL_GetTicks();
 
-	std::vector<Bullet> bullets;
+    std::vector<Bullet> bullets;
 
 	while (!quitFlag) {
 
@@ -73,14 +73,31 @@ void TanksGame::mainLoop(void) {
 		}
 
 		// Draw game background.
-		SDL_SetRenderDrawColor(gameRenderer, GAMEBG_R, GAMEBG_G, GAMEBG_B,
-				0xFF);
+		SDL_SetRenderDrawColor(gameRenderer, GAMEBG_R, GAMEBG_G, GAMEBG_B, 0xFF);
 		SDL_RenderClear(gameRenderer);
 
 		// Update and draw bullets
+		bool removeFlags[bullets.size()];
 		for (std::vector<Bullet>::iterator b = bullets.begin(); b < bullets.end(); ++b) {
-			b->update();
-			b->draw(gameRenderer);
+
+			if (b->isOutsidePerimeter(640, 480)) {
+				removeFlags[b - bullets.begin()] = true;
+			}
+			else {
+				b->update();
+				b->draw(gameRenderer);
+                removeFlags[b - bullets.begin()] = false;
+			}
+
+		}
+
+		// Remove bullets that have exited the game field
+        for (int i = 0; i < bullets.size(); i++) {
+            if (removeFlags[i]) {
+				// NOTE: vector.erase() implicitly calls object destructor
+                bullets.erase(bullets.begin() + i);
+			}
+
 		}
 
 		// Handle user input for player tank
@@ -89,8 +106,6 @@ void TanksGame::mainLoop(void) {
 		// the keyboard array, but it is implicitly called by SDL_PollEvents().
 		playerTank->handleKeyboardState(SDL_GetKeyboardState(NULL), &bullets);
 		playerTank->draw(gameRenderer);
-
-		std::cout << bullets.size() << std::endl;
 
 		// Update screen
 		SDL_RenderPresent(gameRenderer);
@@ -115,8 +130,7 @@ bool TanksGame::init_sdl() {
 			return false;
 		} else {
 			// create renderer for window
-			gameRenderer = SDL_CreateRenderer(gameWindow, -1,
-					SDL_RENDERER_ACCELERATED);
+            gameRenderer = SDL_CreateRenderer(gameWindow, -1, SDL_RENDERER_ACCELERATED);
 
 			if (gameRenderer == NULL) {
 				printf("Error initializing game renderer! SDL_Error: %s\n",

@@ -20,6 +20,10 @@ public:
 	// Draw the bullet on the screen.
 	void draw(SDL_Renderer *gameRenderer);
 
+	// Return true if bullet is outside a box of dimensions (width, height),
+	// otherwise false.
+	bool isOutsidePerimeter(int width, int height);
+
 private:
 	// (x, y) location of the CENTER of the bullet
 	int xPos;

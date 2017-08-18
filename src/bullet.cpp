@@ -49,6 +49,16 @@ void Bullet::draw(SDL_Renderer *gameRenderer) {
 	bulletRect.w = BULLET_WIDTH;
 	bulletRect.h = BULLET_HEIGHT;
 
-	SDL_SetRenderDrawColor(gameRenderer, 0xFF, 0, 0, 0xFF);
 	SDL_RenderCopyEx(gameRenderer, bulletTexture, NULL, &bulletRect, bearing, NULL, SDL_FLIP_NONE);
+}
+
+bool Bullet::isOutsidePerimeter(int width, int height) {
+	if (xPos < 0 || yPos < 0)
+		return true;
+	else if (xPos > width)
+		return true;
+	else if (yPos > height)
+		return true;
+	else
+		return false;
 }
