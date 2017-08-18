@@ -5,6 +5,9 @@
  *      Author: Charlie Friend <charles.d.friend@gmail.com>
  */
 
+#ifndef TANKSGAME_H
+#define TANKSGAME_H
+
 #include <SDL2/SDL.h>
 
 #include "tank.h"
@@ -32,3 +35,5 @@ private:
 	Tank *playerTank;
 
 };
+
+#endif

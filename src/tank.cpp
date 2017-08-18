@@ -7,9 +7,11 @@
 
 #include <iostream>
 #include <math.h>
+#include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "bullet.h"
 #include "tank.h"
 
 const int TANK_WIDTH = 80;
@@ -23,6 +25,8 @@ Tank::Tank(SDL_Renderer* gameRenderer, int initX, int initY) {
 	// set initial x and y positions
 	xPos = initX;
 	yPos = initY;
+
+	this->gameRenderer = gameRenderer;
 
 	// initialize tank texture
 	SDL_Surface *tankSurface = IMG_Load("./res/green_tank/green_tank_1.png");
@@ -42,7 +46,9 @@ Tank::~Tank(void) {
 
 }
 
-void Tank::handleKeyboardState(const Uint8 *keyboardState) {
+void Tank::handleKeyboardState(const Uint8 *keyboardState, std::vector<Bullet> *bullets) {
+
+	// check arrow keys
 	if (keyboardState[SDL_SCANCODE_UP]) {
 		xPos += round( 3 * cos( (double) (90 - bearing) * M_PI / 180) );
 		yPos -= round( 3 * sin( (double) (90 - bearing) * M_PI / 180) );
@@ -56,6 +62,12 @@ void Tank::handleKeyboardState(const Uint8 *keyboardState) {
 	}
 	if (keyboardState[SDL_SCANCODE_RIGHT]) {
 		bearing = (bearing + 3) % 360;
+	}
+
+	// shoot if space bar
+	if (keyboardState[SDL_SCANCODE_SPACE]) {
+		Bullet* b = new Bullet(gameRenderer, xPos, yPos, bearing);
+		bullets->push_back(*b);
 	}
 
 }

@@ -5,6 +5,9 @@
  *      Author: Charlie Friend <charles.d.friend@gmail.com>
  */
 
+#ifndef BULLET_H
+#define BULLET_H
+
 class Bullet {
 
 public:
@@ -28,3 +31,5 @@ private:
 	SDL_Texture *bulletTexture;
 
 };
+
+#endif
