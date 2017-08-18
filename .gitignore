@@ -6,6 +6,12 @@
 .cproject
 .settings/
 
+# QT Creator project files
+*.config
+*.files
+*.includes
+*.creator*
+
 # Binaries
 bin/
 main
