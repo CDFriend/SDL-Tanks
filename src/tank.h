@@ -26,6 +26,8 @@ private:
     int yPos;
     int bearing;
 
+    Uint32 lastShotTime;
+
     SDL_Texture* tankTexture;
     SDL_Renderer* gameRenderer;
 

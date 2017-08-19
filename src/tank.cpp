@@ -17,6 +17,8 @@
 const int TANK_WIDTH = 80;
 const int TANK_HEIGHT = 80;
 
+const int MINIMUM_RELOAD_TIME_MS = 300;
+
 Tank::Tank(SDL_Renderer* gameRenderer, int initX, int initY) {
 
     // initialize bearing to zero (tank always begins facing due north)
@@ -25,6 +27,9 @@ Tank::Tank(SDL_Renderer* gameRenderer, int initX, int initY) {
     // set initial x and y positions
     xPos = initX;
     yPos = initY;
+
+    // should be able to shoot immediately after init
+    lastShotTime = 0;
 
     this->gameRenderer = gameRenderer;
 
@@ -65,9 +70,14 @@ void Tank::handleKeyboardState(const Uint8 *keyboardState, std::vector<Bullet> *
     }
 
     // shoot if space bar
-    if (keyboardState[SDL_SCANCODE_SPACE]) {
+    if (keyboardState[SDL_SCANCODE_SPACE] &&
+            SDL_GetTicks() - lastShotTime > MINIMUM_RELOAD_TIME_MS) {
+
+        lastShotTime = SDL_GetTicks();
+
         Bullet* b = new Bullet(gameRenderer, xPos, yPos, bearing);
         bullets->push_back(*b);
+
     }
 
 }
