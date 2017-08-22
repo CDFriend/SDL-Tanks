@@ -13,5 +13,5 @@
 *.creator*
 
 # Binaries
-bin/
+build/
 main

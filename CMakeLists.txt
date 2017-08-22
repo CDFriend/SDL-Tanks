@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 project(tanks)
 
 # Include headers
-include_directories(src)
+include_directories(include)
 
 # Copy resource files
 file(COPY res/ DESTINATION res/)
