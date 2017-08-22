@@ -9,8 +9,8 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
-#include "bullet.h"
-#include "tanks_game.h"
+#include "tanks/game/bullet.h"
+#include "tanks/game/tanks_game.h"
 
 const int PLAYER1_INIT_X = 200;
 const int PLAYER1_INIT_Y = 200;

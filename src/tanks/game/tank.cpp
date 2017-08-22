@@ -11,8 +11,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "bullet.h"
-#include "tank.h"
+#include "tanks/game/bullet.h"
+#include "tanks/game/tank.h"
 
 const int TANK_WIDTH = 80;
 const int TANK_HEIGHT = 80;

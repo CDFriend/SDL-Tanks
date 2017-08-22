@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "tanks_game.h"
+#include "tanks/game/tanks_game.h"
 
 int main(int argc, char* argv[]) {
 

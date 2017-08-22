@@ -24,7 +24,7 @@ include_directories(${SDL2IMAGE_INCLUDE_DIRS})
 endif(${SDL2IMAGE_FOUND})
 
 # Locate C++ source files
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 # Specify main executable
 add_executable(tanks ${SOURCES})
