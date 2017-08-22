@@ -19,6 +19,8 @@ const int TANK_HEIGHT = 80;
 
 const int MINIMUM_RELOAD_TIME_MS = 300;
 
+using namespace Tanks::Game;
+
 Tank::Tank(SDL_Renderer* gameRenderer, int initX, int initY) {
 
     // initialize bearing to zero (tank always begins facing due north)

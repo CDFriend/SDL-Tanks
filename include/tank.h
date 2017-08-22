@@ -13,24 +13,32 @@
 
 #include "bullet.h"
 
-class Tank {
+namespace Tanks {
 
-public:
-    Tank(SDL_Renderer *gameRenderer, int initX, int initY);
-    ~Tank();
-    void handleKeyboardState(const Uint8 *keyboardState, std::vector<Bullet> *bullets);
-    void draw(SDL_Renderer *drawingSurface);
-
-private:
-    int xPos;
-    int yPos;
-    int bearing;
-
-    Uint32 lastShotTime;
-
-    SDL_Texture* tankTexture;
-    SDL_Renderer* gameRenderer;
-
-};
+    namespace Game {
+    
+        class Tank {
+        
+        public:
+            Tank(SDL_Renderer *gameRenderer, int initX, int initY);
+            ~Tank();
+            void handleKeyboardState(const Uint8 *keyboardState, std::vector<Bullet> *bullets);
+            void draw(SDL_Renderer *drawingSurface);
+        
+        private:
+            int xPos;
+            int yPos;
+            int bearing;
+        
+            Uint32 lastShotTime;
+        
+            SDL_Texture* tankTexture;
+            SDL_Renderer* gameRenderer;
+        
+        };
+    
+    }
+    
+}
 
 #endif

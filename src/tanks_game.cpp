@@ -23,6 +23,8 @@ const int GAMEBG_B = 255;
 // (1 / 60ips) * 1000
 const int MIN_UPDATE_PERIOD = (int) (1000 / 60.0);
 
+using namespace Tanks::Game;
+
 TanksGame::TanksGame(void) {
 
     // init gameWindow and gameRenderer

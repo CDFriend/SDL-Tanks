@@ -16,6 +16,8 @@ const int BULLET_SPEED = 4;
 const int BULLET_WIDTH = 84;
 const int BULLET_HEIGHT = 84;
 
+using namespace Tanks::Game;
+
 Bullet::Bullet(SDL_Renderer *gameRenderer, int x, int y, int bearing) {
     this->xPos = x;
     this->yPos = y;

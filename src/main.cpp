@@ -9,16 +9,11 @@
 
 #include "tanks_game.h"
 
-using namespace std;
-
 int main(int argc, char* argv[]) {
 
-    TanksGame *game;
-    game = new TanksGame();
+    Tanks::Game::TanksGame game;
 
-    game->mainLoop();
-
-    delete game;
+    game.mainLoop();
 
     return 0;
 
